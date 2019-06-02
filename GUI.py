@@ -17,6 +17,7 @@ class Kalkulator:
         vcmd = master.register(self.validate)
         vcmd2 = master.register(self.validate2)
 
+        #definiowanie przycisków akcji
         self.dodaj = Button(master, text="x+y", command=lambda: self.zmien_znak("+"))
         self.odejmij = Button(master, text="x-y", command=lambda: self.zmien_znak("-"))
         self.mnoz = Button(master, text="x*y", command=lambda: self.zmien_znak("*"))
@@ -24,13 +25,16 @@ class Kalkulator:
         self.potega = Button(master, text="x**y", command=lambda: self.zmien_znak("**"))
         self.pierwiastek = Button(master, text="√x", command=lambda: self.zmien_znak("√"))
 
+        #definiowanie przycisku wykonującego liczenie
         self.wykonaj = Button(master, text="=", command=lambda: self.wykonaj_dzialanie(self.znak))
 
+        #definiowanie pól do wprowadzania zmiennych
         self.entry = Entry(master, validate="key", validatecommand=(vcmd, '%P'))
         self.entry2 = Entry(master, validate="key", validatecommand=(vcmd2, "%P"))
         self.wynikwyswietl = Label(master, textvariable=self.wynik_text)
         self.bladwyswietl = Label(master, textvariable=self.blad_text)
 
+        #wstawienie przycisków akcji do okna aplikacji
         self.dodaj.grid(row=0)
         self.odejmij.grid(row=1)
         self.mnoz.grid(row=0, column=1)
@@ -38,13 +42,16 @@ class Kalkulator:
         self.potega.grid(row=0, column=2)
         self.pierwiastek.grid(row=1, column=2)
 
+        #wstawienie przycisku wykonującego liczenie do okna aplikacji
         self.wykonaj.grid(row=0, column=3)
 
+        #wstawienie pól do wprowadziania danych do okna aplikacji
         self.entry.grid(row=2, column=0, columnspan=10, sticky=W + E)
         self.entry2.grid(row=3, column=0, columnspan=10, sticky=W + E)
         self.wynikwyswietl.grid(row=4, sticky=E, columnspan=10)
         self.bladwyswietl.grid(row=5, sticky=E, columnspan=10)
 
+        #nazwa okna aplikacji
         master.title("Kalkulator")
 
     def zmien_znak(self, znak):
