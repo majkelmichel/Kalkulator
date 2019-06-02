@@ -9,8 +9,6 @@ class Kalkulator:
         self.wynik_text = IntVar()
         self.wynik_text.set(self.wynik)
 
-
-
         vcmd = master.register(self.validate)
         vcmd2 = master.register(self.validate2)
 
@@ -23,9 +21,6 @@ class Kalkulator:
         self.entry2 = Entry(master, validate="key", validatecommand=(vcmd2, "%P"))
         self.wynikwyswietl = Label(master,textvariable = self.wynik_text)
 
-
-
-
         self.dodaj.grid(row=0)
         self.odejmij.grid(row=1)
         self.mnoz.grid(row=0,column=1)
@@ -34,7 +29,6 @@ class Kalkulator:
         self.entry2.grid(row=3,column=0,columnspan=10,sticky=W+E)
         self.wykonaj.grid(row=0,column=2)
         self.wynikwyswietl.grid(row=4,sticky=E)
-
 
         master.title("Kalkulator")
 
@@ -98,7 +92,6 @@ class Kalkulator:
         except ZeroDivisionError:
             print("Nie dzieli się przez 0")
             return "Nie dzieli się przez 0"
-
 
 
 
