@@ -48,11 +48,11 @@ class Kalkulator:
             self.znak = "*"
         elif znak == "/":
             self.znak = "/"
-        print(self.znak)
+        #print(self.znak)
         return self.znak
 
     def validate(self, new_text):
-        if not new_text: # the field is being cleared
+        if not new_text:
             self.num1 = 0
             return True
 
@@ -63,7 +63,7 @@ class Kalkulator:
             return False
 
     def validate2(self, new_text):
-        if not new_text: # the field is being cleared
+        if not new_text:
             self.num2 = 0
             return True
 
@@ -89,7 +89,7 @@ class Kalkulator:
                     self.wynik = self.num1 / self.num2
             else:
                 raise ValueError
-            print(self.wynik)
+            #print(self.wynik)
             self.wynik_text.set(self.wynik)
             #return self.wynik
         except ValueError:
