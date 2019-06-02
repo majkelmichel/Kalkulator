@@ -1,57 +1,105 @@
-from tkinter import Tk, Label, Button, IntVar
+from tkinter import Tk, Label, Button, IntVar, Entry, W, E
 
 class Kalkulator:
     def __init__(self, master):
         self.master = master
 
+        self.znak = None
+        self.wynik = 0
+        self.wynik_text = IntVar()
+        self.wynik_text.set(self.wynik)
+
+
+
+        vcmd = master.register(self.validate)
+        vcmd2 = master.register(self.validate2)
+
+        self.dodaj = Button(master,text="+",command=lambda: self.zmien_znak("+"))
+        self.odejmij = Button(master,text="-",command=lambda: self.zmien_znak("-"))
+        self.mnoz = Button(master,text = "*",command=lambda: self.zmien_znak("*"))
+        self.dziel = Button(master,text="/",command=lambda: self.zmien_znak("/"))
+        self.wykonaj = Button(master,text="=", command=lambda: self.wykonaj_dzialanie(self.znak))
+        self.entry = Entry(master, validate="key", validatecommand=(vcmd, '%P'))
+        self.entry2 = Entry(master, validate="key", validatecommand=(vcmd2, "%P"))
+        self.wynikwyswietl = Label(master,textvariable = self.wynik_text)
+
+
+
+
+        self.dodaj.grid(row=0)
+        self.odejmij.grid(row=1)
+        self.mnoz.grid(row=0,column=1)
+        self.dziel.grid(row=1,column=1)
+        self.entry.grid(row=2, column=0, columnspan=10, sticky=W + E)
+        self.entry2.grid(row=3,column=0,columnspan=10,sticky=W+E)
+        self.wykonaj.grid(row=0,column=2)
+        self.wynikwyswietl.grid(row=4,sticky=E)
+
+
         master.title("Kalkulator")
 
-        self.total = 0
-        self.podany_numer = 0
 
-        self.podany_numer_Var = IntVar()
-        self.podany_numer_Var.set(self.podany_numer)
-        self.podany_numer_label = Label(master, textvariable = self.podany_numer_Var)
+    def zmien_znak(self,znak):
+        if znak == "+":
+            self.znak = "+"
+        elif znak == "-":
+            self.znak="-"
+        elif znak == "*":
+            self.znak = "*"
+        elif znak == "/":
+            self.znak = "/"
+        #print(self.znak)
+        return self.znak
 
-        self.label = Label(master, text="To jest kalkulator")
-        self.label1 = Label(master, textvariable = self.podany_numer_Var)
+    def validate(self, new_text):
+        if not new_text:
+            self.num1 = 0
+            return True
 
-        self.button1 = Button(master, text = " 1 ", command = self.but_1())
+        try:
+            self.num1 = int(new_text)
+            return self.num1
+        except ValueError:
+            return False
 
-        self.button2 = Button(master, text = " 2 ")
-        """
-        self.button3 = Button(master, text = " 3 ")
-        self.button4 = Button(master, text = " 4 ")
-        self.button5 = Button(master, text=" 5 ")
-        self.button6= Button(master, text=" 6 ")
-        self.button7= Button(master, text=" 7 ")
-        self.button8= Button(master, text=" 8 ")
-        self.button9= Button(master, text=" 9 ")
-        """
-        #self.label.grid(columnspan=5,sticky = W)
-        self.label1.grid(row =0,column = 1)
-        self.button1.grid(row=1,column = 0)
-        self.button2.grid(row=1,column = 1)
-        """
-        self.button3.grid(row=1,column = 2)
-        self.button4.grid(row=2, column=0)
-        self.button5.grid(row=2, column=1)
-        self.button6.grid(row=2, column=2)
-        self.button7.grid(row=3, column=0)
-        self.button8.grid(row=3, column=1)
-        self.button9.grid(row=3, column=2)
-        """
+    def validate2(self, new_text):
+        if not new_text:
+            self.num2 = 0
+            return True
 
-        #self.button1.bind("<Button-1>", self.but_1())
+        try:
+            self.num2 = int(new_text)
+            return self.num2
+        except ValueError:
+            return False
 
-    def but_1(self):
-        self.podany_numer += 1
+    def wykonaj_dzialanie(self,znak):
+        self.wynik=0
+        try:
+            if znak == "+":
+                self.wynik = self.num1 + self.num2
+            elif znak == "-":
+                self.wynik = self.num1 - self.num2
+            elif znak == "*":
+                self.wynik = self.num1 * self.num2
+            elif znak == "/":
+                if self.num2 == 0:
+                    raise ZeroDivisionError
+                else:
+                    self.wynik = self.num1 / self.num2
+            else:
+                raise ValueError
+            #print(self.wynik)
+            self.wynik_text.set(self.wynik)
+            #return self.wynik
+        except ValueError:
+            print("Nie podano znaku")
+            return "Nie podano znaku"
+        except ZeroDivisionError:
+            print("Nie dzieli się przez 0")
+            return "Nie dzieli się przez 0"
 
-        self.podany_numer_Var.set(self.podany_numer)
-    def but_2(self):
-        self.podany_numer +=2
 
-        self.podany_numer_Var.set(self.podany_numer)
 
 
 root = Tk()
