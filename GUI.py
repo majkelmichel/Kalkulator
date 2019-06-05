@@ -24,6 +24,8 @@ class Kalkulator:
         self.dziel = Button(master, text="x/y", command=lambda: self.zmien_znak("/"))
         self.potega = Button(master, text="x**y", command=lambda: self.zmien_znak("**"))
         self.pierwiastek = Button(master, text="√x", command=lambda: self.zmien_znak("√"))
+        self.porownaj = Button(master, text="Porównaj liczby", command=lambda: self.zmien_znak("porownaj"))
+        self.zamiana_bin_na_10 = Button(master, text="Zamień binarną na dziesiętną", command=lambda: self.zmien_znak("bin_na_10"))
 
         # definiowanie przycisku wykonującego liczenie
         self.wykonaj = Button(master, text="=", command=lambda: self.wykonaj_dzialanie(self.znak))
@@ -47,12 +49,14 @@ class Kalkulator:
         self.dziel.grid(row=1, column=1)
         self.potega.grid(row=0, column=2)
         self.pierwiastek.grid(row=1, column=2)
+        self.porownaj.grid(row=2,columnspan=3)
+        self.zamiana_bin_na_10.grid(row=3, columnspan=5)
 
         # wstawienie przycisku wykonującego liczenie do okna aplikacji
         self.wykonaj.grid(row=0, column=3)
 
-        self.wynik.grid(row=4)
-        self.wynikwyswietl.grid(row=4, column=1, sticky=E, columnspan=10)
+        self.wynik.grid(row=10)
+        self.wynikwyswietl.grid(row=10, column=1, sticky=E, columnspan=10)
 
 
         # nazwa okna aplikacji
@@ -61,40 +65,53 @@ class Kalkulator:
     def zmien_znak(self, znak):
         if znak == "+":
             self.znak = "+"
-            self.x.grid(row=2)
-            self.y.grid(row=3)
-            self.entry.grid(row=2, column=1, columnspan=10, sticky=W + E)
-            self.entry2.grid(row=3, column=1, columnspan=10, sticky=W + E)
+            self.x.grid(row=5)
+            self.y.grid(row=6)
+            self.entry.grid(row=5, column=1, columnspan=10, sticky=W + E)
+            self.entry2.grid(row=6, column=1, columnspan=10, sticky=W + E)
         elif znak == "-":
             self.znak = "-"
-            self.x.grid(row=2)
-            self.y.grid(row=3)
-            self.entry.grid(row=2, column=1, columnspan=10, sticky=W + E)
-            self.entry2.grid(row=3, column=1, columnspan=10, sticky=W + E)
+            self.x.grid(row=5)
+            self.y.grid(row=6)
+            self.entry.grid(row=5, column=1, columnspan=10, sticky=W + E)
+            self.entry2.grid(row=6, column=1, columnspan=10, sticky=W + E)
         elif znak == "*":
             self.znak = "*"
-            self.x.grid(row=2)
-            self.y.grid(row=3)
-            self.entry.grid(row=2, column=1, columnspan=10, sticky=W + E)
-            self.entry2.grid(row=3, column=1, columnspan=10, sticky=W + E)
+            self.x.grid(row=5)
+            self.y.grid(row=6)
+            self.entry.grid(row=5, column=1, columnspan=10, sticky=W + E)
+            self.entry2.grid(row=6, column=1, columnspan=10, sticky=W + E)
         elif znak == "/":
             self.znak = "/"
-            self.x.grid(row=2)
-            self.y.grid(row=3)
-            self.entry.grid(row=2, column=1, columnspan=10, sticky=W + E)
-            self.entry2.grid(row=3, column=1, columnspan=10, sticky=W + E)
+            self.x.grid(row=5)
+            self.y.grid(row=6)
+            self.entry.grid(row=5, column=1, columnspan=10, sticky=W + E)
+            self.entry2.grid(row=6, column=1, columnspan=10, sticky=W + E)
         elif znak == "**":
             self.znak = "**"
-            self.x.grid(row=2)
-            self.y.grid(row=3)
-            self.entry.grid(row=2, column=1, columnspan=10, sticky=W + E)
-            self.entry2.grid(row=3, column=1, columnspan=10, sticky=W + E)
+            self.x.grid(row=5)
+            self.y.grid(row=6)
+            self.entry.grid(row=5, column=1, columnspan=10, sticky=W + E)
+            self.entry2.grid(row=6, column=1, columnspan=10, sticky=W + E)
         elif znak == "√":
             self.znak = "√"
-            self.x.grid(row=2)
-            self.entry.grid(row=2, column=1, columnspan=10, sticky=W + E)
+            self.x.grid(row=5)
+            self.entry.grid(row=5, column=1, columnspan=10, sticky=W + E)
             self.entry2.grid_remove()
             self.y.grid_remove()
+        elif znak == "porownaj":
+            self.znak = "porownaj"
+            self.x.grid(row=5)
+            self.y.grid(row=6)
+            self.entry.grid(row=5, column=1, columnspan=10, sticky=W + E)
+            self.entry2.grid(row=6, column=1, columnspan=10, sticky=W + E)
+        elif znak == "bin_na_10":
+            self.znak = "bin_na_10"
+            self.x.grid(row=5)
+            self.entry.grid(row=5, column=1, columnspan=10, sticky=W + E)
+            self.entry2.grid_remove()
+            self.y.grid_remove()
+
 
         # print(self.znak)
         return self.znak
@@ -121,6 +138,35 @@ class Kalkulator:
         except ValueError:
             return False
 
+    def porownanie(self,n1,n2):
+        if n1 > n2:
+            wynik = "jest większa od liczby"
+        elif n1 < n2:
+            wynik = "jest mniejsza od liczby"
+        elif n1 == n2:
+            wynik = "jest równa liczbie"
+        n1 = str(n1)
+        n2 = str(n2)
+        self.wynik = "Liczba %s %s %s." % (n1,wynik,n2)
+        return self.wynik
+
+    def zamiana_bin_na_10_func(self,liczba):
+        liczba = str(liczba)
+        lista=[]
+        wynik=0
+        for i in liczba:
+            if i not in ["1", "0"]:
+                raise ArithmeticError
+            lista.append(i)
+        lista.reverse()
+        a=0
+        for i in lista:
+            i = int(i)
+            wynik += 2**a * i
+            a+=1
+        self.wynik = wynik
+        return self.wynik
+
     def wykonaj_dzialanie(self, znak):
         self.wynik = 0
         try:
@@ -139,6 +185,10 @@ class Kalkulator:
                 self.wynik = self.num1 ** self.num2
             elif znak == "√":
                 self.wynik = sqrt(self.num1)
+            elif znak == "porownaj":
+                self.porownanie(self.num1, self.num2)
+            elif znak == "bin_na_10":
+                self.zamiana_bin_na_10_func(self.num1)
             else:
                 raise ValueError
             # print(self.wynik)
@@ -149,18 +199,23 @@ class Kalkulator:
         except ValueError:
             self.blad = "Nie podano znaku"
             self.blad_text.set(self.blad)
-            self.bladwyswietl.grid(row=5, column=1, sticky=E, columnspan=10)
-            self.bladwyswietl_1.grid(row=5)
+            self.bladwyswietl.grid(row=11, column=1, sticky=E, columnspan=10)
+            self.bladwyswietl_1.grid(row=11)
         except ZeroDivisionError:
             self.blad = "Nie dzieli się przez 0"
             self.blad_text.set(self.blad)
-            self.bladwyswietl.grid(row=5, column=1, sticky=E, columnspan=10)
-            self.bladwyswietl_1.grid(row=5)
+            self.bladwyswietl.grid(row=11, column=1, sticky=E, columnspan=10)
+            self.bladwyswietl_1.grid(row=11)
         except AttributeError:
             self.blad = "Nie podano liczb"
             self.blad_text.set(self.blad)
-            self.bladwyswietl.grid(row=5, column=1, sticky=E, columnspan=10)
-            self.bladwyswietl_1.grid(row=5)
+            self.bladwyswietl.grid(row=11, column=1, sticky=E, columnspan=10)
+            self.bladwyswietl_1.grid(row=11)
+        except ArithmeticError:
+            self.blad = "Nieprawidłowa liczba binarna"
+            self.blad_text.set(self.blad)
+            self.bladwyswietl.grid(row=11, column=1, sticky=E, columnspan=10)
+            self.bladwyswietl_1.grid(row=11)
 
 
 root = Tk()
