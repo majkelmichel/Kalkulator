@@ -44,10 +44,13 @@ class Kalkulator:
 
         # wstawienie przycisku wykonującego liczenie do okna aplikacji
         self.wykonaj.grid(row=0, column=3)
-
+        #self.entry.grid(row=2, column=0, columnspan=10, sticky=W + E)
+        #self.entry2.grid(row=3, column=0, columnspan=10, sticky=W + E)
         # wstawienie pól do wprowadziania danych do okna aplikacji
-        self.entry.grid(row=2, column=0, columnspan=10, sticky=W + E)
-        self.entry2.grid(row=3, column=0, columnspan=10, sticky=W + E)
+        if self.znak == "+" or self.znak == "-" or self.znak == "*" or self.znak == "/" or self.znak == "**":
+            pass
+        elif self.znak == "√":
+            pass
         self.wynikwyswietl.grid(row=4, sticky=E, columnspan=10)
         self.bladwyswietl.grid(row=5, sticky=E, columnspan=10)
 
@@ -57,16 +60,29 @@ class Kalkulator:
     def zmien_znak(self, znak):
         if znak == "+":
             self.znak = "+"
+            self.entry.grid(row=2, column=0, columnspan=10, sticky=W + E)
+            self.entry2.grid(row=3, column=0, columnspan=10, sticky=W + E)
         elif znak == "-":
             self.znak = "-"
+            self.entry.grid(row=2, column=0, columnspan=10, sticky=W + E)
+            self.entry2.grid(row=3, column=0, columnspan=10, sticky=W + E)
         elif znak == "*":
             self.znak = "*"
+            self.entry.grid(row=2, column=0, columnspan=10, sticky=W + E)
+            self.entry2.grid(row=3, column=0, columnspan=10, sticky=W + E)
         elif znak == "/":
             self.znak = "/"
+            self.entry.grid(row=2, column=0, columnspan=10, sticky=W + E)
+            self.entry2.grid(row=3, column=0, columnspan=10, sticky=W + E)
         elif znak == "**":
             self.znak = "**"
+            self.entry.grid(row=2, column=0, columnspan=10, sticky=W + E)
+            self.entry2.grid(row=3, column=0, columnspan=10, sticky=W + E)
         elif znak == "√":
             self.znak = "√"
+            self.entry.grid(row=2, column=0, columnspan=10, sticky=W + E)
+            self.entry2.grid_remove()
+
         # print(self.znak)
         return self.znak
 
@@ -114,6 +130,8 @@ class Kalkulator:
                 raise ValueError
             # print(self.wynik)
             self.wynik_text.set(self.wynik)
+            self.entry.grid_remove()
+            self.entry2.grid_remove()
             # return self.wynik
         except ValueError:
             self.blad = "Nie podano znaku"
