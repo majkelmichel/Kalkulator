@@ -33,6 +33,12 @@ class Kalkulator:
         self.entry2 = Entry(master, validate="key", validatecommand=(vcmd2, "%P"))
         self.wynikwyswietl = Label(master, textvariable=self.wynik_text)
         self.bladwyswietl = Label(master, textvariable=self.blad_text)
+        self.bladwyswietl_1 = Label(master, text="Wystąpił błąd:")
+
+        # definiowanie labelow z podpisami
+        self.x = Label(master, text="x:")
+        self.y = Label(master, text="y:")
+        self.wynik = Label(master, text = "Wynik:")
 
         # wstawienie przycisków akcji do okna aplikacji
         self.dodaj.grid(row=0)
@@ -44,15 +50,10 @@ class Kalkulator:
 
         # wstawienie przycisku wykonującego liczenie do okna aplikacji
         self.wykonaj.grid(row=0, column=3)
-        #self.entry.grid(row=2, column=0, columnspan=10, sticky=W + E)
-        #self.entry2.grid(row=3, column=0, columnspan=10, sticky=W + E)
-        # wstawienie pól do wprowadziania danych do okna aplikacji
-        if self.znak == "+" or self.znak == "-" or self.znak == "*" or self.znak == "/" or self.znak == "**":
-            pass
-        elif self.znak == "√":
-            pass
-        self.wynikwyswietl.grid(row=4, sticky=E, columnspan=10)
-        self.bladwyswietl.grid(row=5, sticky=E, columnspan=10)
+
+        self.wynik.grid(row=4)
+        self.wynikwyswietl.grid(row=4, column=1, sticky=E, columnspan=10)
+
 
         # nazwa okna aplikacji
         master.title("Kalkulator")
@@ -60,28 +61,40 @@ class Kalkulator:
     def zmien_znak(self, znak):
         if znak == "+":
             self.znak = "+"
-            self.entry.grid(row=2, column=0, columnspan=10, sticky=W + E)
-            self.entry2.grid(row=3, column=0, columnspan=10, sticky=W + E)
+            self.x.grid(row=2)
+            self.y.grid(row=3)
+            self.entry.grid(row=2, column=1, columnspan=10, sticky=W + E)
+            self.entry2.grid(row=3, column=1, columnspan=10, sticky=W + E)
         elif znak == "-":
             self.znak = "-"
-            self.entry.grid(row=2, column=0, columnspan=10, sticky=W + E)
-            self.entry2.grid(row=3, column=0, columnspan=10, sticky=W + E)
+            self.x.grid(row=2)
+            self.y.grid(row=3)
+            self.entry.grid(row=2, column=1, columnspan=10, sticky=W + E)
+            self.entry2.grid(row=3, column=1, columnspan=10, sticky=W + E)
         elif znak == "*":
             self.znak = "*"
-            self.entry.grid(row=2, column=0, columnspan=10, sticky=W + E)
-            self.entry2.grid(row=3, column=0, columnspan=10, sticky=W + E)
+            self.x.grid(row=2)
+            self.y.grid(row=3)
+            self.entry.grid(row=2, column=1, columnspan=10, sticky=W + E)
+            self.entry2.grid(row=3, column=1, columnspan=10, sticky=W + E)
         elif znak == "/":
             self.znak = "/"
-            self.entry.grid(row=2, column=0, columnspan=10, sticky=W + E)
-            self.entry2.grid(row=3, column=0, columnspan=10, sticky=W + E)
+            self.x.grid(row=2)
+            self.y.grid(row=3)
+            self.entry.grid(row=2, column=1, columnspan=10, sticky=W + E)
+            self.entry2.grid(row=3, column=1, columnspan=10, sticky=W + E)
         elif znak == "**":
             self.znak = "**"
-            self.entry.grid(row=2, column=0, columnspan=10, sticky=W + E)
-            self.entry2.grid(row=3, column=0, columnspan=10, sticky=W + E)
+            self.x.grid(row=2)
+            self.y.grid(row=3)
+            self.entry.grid(row=2, column=1, columnspan=10, sticky=W + E)
+            self.entry2.grid(row=3, column=1, columnspan=10, sticky=W + E)
         elif znak == "√":
             self.znak = "√"
-            self.entry.grid(row=2, column=0, columnspan=10, sticky=W + E)
+            self.x.grid(row=2)
+            self.entry.grid(row=2, column=1, columnspan=10, sticky=W + E)
             self.entry2.grid_remove()
+            self.y.grid_remove()
 
         # print(self.znak)
         return self.znak
@@ -130,20 +143,24 @@ class Kalkulator:
                 raise ValueError
             # print(self.wynik)
             self.wynik_text.set(self.wynik)
-            self.entry.grid_remove()
-            self.entry2.grid_remove()
+            self.bladwyswietl.grid_remove()
+            self.bladwyswietl_1.grid_remove()
             # return self.wynik
         except ValueError:
             self.blad = "Nie podano znaku"
             self.blad_text.set(self.blad)
-            return "Nie podano znaku"
+            self.bladwyswietl.grid(row=5, column=1, sticky=E, columnspan=10)
+            self.bladwyswietl_1.grid(row=5)
         except ZeroDivisionError:
             self.blad = "Nie dzieli się przez 0"
             self.blad_text.set(self.blad)
-            return "Nie dzieli się przez 0"
+            self.bladwyswietl.grid(row=5, column=1, sticky=E, columnspan=10)
+            self.bladwyswietl_1.grid(row=5)
         except AttributeError:
             self.blad = "Nie podano liczb"
             self.blad_text.set(self.blad)
+            self.bladwyswietl.grid(row=5, column=1, sticky=E, columnspan=10)
+            self.bladwyswietl_1.grid(row=5)
 
 
 root = Tk()
